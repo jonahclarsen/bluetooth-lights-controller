@@ -1,22 +1,13 @@
 # bluetooth_lights_controller
 A modification of [kabyru's modification](https://github.com/kabyru/govee-btled-controller) of [Christian Volkmann's govee_btled wrapper](https://github.com/chvolkmann/govee_btled), fixing a bug with multiple lights and adding support for the Govee H6005 bulb (see Usage below).
 
-I have tested and confirmed this to work with the H6001 and H6005 LED Light Bulbs, [and based on this](https://github.com/egold555/Govee-Reverse-Engineering/blob/master/Products/H6127.md) it should also work with the H6127 LED Strip Lights and maybe other Govee/Minger lights.
+I have tested and confirmed this to work with the H6001 and H6005 LED Light Bulbs, [and based on this](https://github.com/egold555/Govee-Reverse-Engineering/blob/master/Products/H6127.md) it should also work with the H6127 LED Strip Lights and maybe other Govee/Minger lights. I have only confirmed it to work on Mac, but it should also work on other platforms.
 
 # Installation
 Use pip to install:
 ```
 pip install -U git+https://github.com/jonahclarsen/bluetooth_lights_controller
 ```
-
-# Platform Support
-This wrapper accomplishes Windows compatibility by re-implementing the ```govee_btled``` package to use the [Bleak](https://github.com/hbldh/bleak) GATT client software. PyGATT is not compatible with most Windows machines' Bluetooth interfaces, and requires an external BGAPI compatible device. Bleak is platform-agnostic and can use any Windows Bluetooth interface as it uses the UWP Bluetooth Stack.
-
-This software should be compatible with any platform that supports Bleak, which are listed by Bleak as:
-* Supports Windows 10, version 16299 (Fall Creators Update) or greater
-* Supports Linux distributions with BlueZ >= 5.43
-* OS X/macOS support via Core Bluetooth API, from at least OS X version 10.11
-* Android backend compatible with python-for-android
 
 # Usage
 See `__main__.py` for a full example in action.
