@@ -32,7 +32,8 @@ class LedMode(IntEnum):
 
     Currently only manual is supported.
     """
-    MANUAL = 0x02
+    MANUAL = 0x02 # 0x02 for H6001, 0x0d for H6005
+    MANUAL_H6005 = 0x0d
     MICROPHONE = 0x06
     SCENES = 0x05
 
