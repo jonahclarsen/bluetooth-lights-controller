@@ -42,11 +42,10 @@ class BluetoothLED:
         self.mac = mac
         self._bt = BleakClient(mac, timeout=timeout)
 
-        self.init_and_connect()
-
     async def init_and_connect(self):
         await self._bt.connect()
-        print(self._bt.is_connected)
+        # We could print this, but it's a bit annoying:
+        # print(self._bt.is_connected)
 
     def __del__(self):
         self._cleanup()
@@ -58,9 +57,14 @@ class BluetoothLED:
     def _cleanup(self):
         self._bt = None
 
-    async def set_state(self, onoff):
+    async def disconnect(self):
+        if self._bt is not None:
+            await self._bt.disconnect()
+            self._bt = None
+
+    def set_state(self, onoff):
         """ Controls the power state of the LED. """
-        return await self._send(LedCommand.POWER, [0x1 if onoff else 0x0])
+        return self._send(LedCommand.POWER, [0x1 if onoff else 0x0])
 
     async def set_brightness(self, value):
         """
@@ -73,16 +77,22 @@ class BluetoothLED:
         value = round(value * 0xFF)
         return await self._send(LedCommand.BRIGHTNESS, [value])
 
-    async def set_color(self, color):
+    async def set_color(self, color, is_h6005 = False):
         """
         Sets the LED's color.
 
         `color` must be a color-convertible (see the `colour` library),
         e.g. 'red', '#ff0000', etc.
         """
-        return await self._send(LedCommand.COLOR, [LedMode.MANUAL, *color2rgb(color)])
 
-    async def set_color_white(self, value):
+        mode = LedMode.MANUAL
+
+        if is_h6005:
+            mode = LedMode.MANUAL_H6005
+
+        return await self._send(LedCommand.COLOR, [mode, *color2rgb(color)])
+
+    async def set_color_white(self, value, is_h6005 = False):
         """
         Sets the LED's color in white-mode.
 
@@ -97,8 +107,13 @@ class BluetoothLED:
         index = round(value * (len(SHADES_OF_WHITE) - 1))
         white = Color(SHADES_OF_WHITE[index])
 
+        mode = LedMode.MANUAL
+
+        if is_h6005:
+            mode = LedMode.MANUAL_H6005
+
         # Set the color to white (although ignored) and the boolean flag to True
-        return await self._send(LedCommand.COLOR, [LedMode.MANUAL, 0xff, 0xff, 0xff, 0x01, *color2rgb(white)])
+        return await self._send(LedCommand.COLOR, [mode, 0xff, 0xff, 0xff, 0x01, *color2rgb(white)])
 
     async def _send(self, cmd, payload):
         """ Sends a command and handles paylaod padding. """
