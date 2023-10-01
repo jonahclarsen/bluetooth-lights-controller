@@ -10,8 +10,6 @@ pip install -U git+https://github.com/jonahclarsen/bluetooth_lights_controller
 ```
 
 # Usage
-See `__main__.py` for a full example in action.
-
 ```python
 from bluetooth_lights_controller import BluetoothLED
 import asyncio
@@ -25,7 +23,8 @@ lights = {  # Replace these with your LED's MAC address (see below for instructi
 
 async def main():
     await set_color_of_all_lights_white(-.45, 1)  # Day
-    await set_color_of_all_lights('orangered', 0.5)  # Night
+    await set_color_of_all_lights('orangered', 0.5)  # Evening
+    await set_color_of_all_lights_white(0, 0)  # Night (off)
 
 loop = asyncio.get_event_loop()
 try:
