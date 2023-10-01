@@ -1,12 +1,12 @@
 # govee_btled_windows
-A re-implementation of [Christian Volkmann's govee_btled wrapper](https://github.com/chvolkmann/govee_btled) but with Windows compatibility.
+A modification of [kabyru's modification](https://github.com/kabyru/govee-btled-controller) of [Christian Volkmann's govee_btled wrapper](https://github.com/chvolkmann/govee_btled), fixing a bug with multiple lights and adding support for the Govee H6005 bulb (see Usage below).
 
-This wrapper supports controlling the Govee/Minger H6001 Smart LED Light Bulb.
+I have tested and confirmed this to work with the H6001 and H6005 LED Light Bulbs, [and based on this](https://github.com/egold555/Govee-Reverse-Engineering/blob/master/Products/H6127.md) it should also work with the H6127 LED Strip Lights and maybe other Govee/Minger lights.
 
 # Installation
 Use pip to install:
 ```
-pip install -U git+https://github.com/kabyru/govee_btled_windows
+pip install -U git+https://github.com/jonahclarsen/bluetooth_lights_controller
 ```
 
 # Platform Support
@@ -22,19 +22,19 @@ This software should be compatible with any platform that supports Bleak, which 
 See `__main__.py` for a full example in action.
 
 ```python
-import time
-from govee_btled_windows import BluetoothLED
+from bluetooth_lights_controller import BluetoothLED
 import asyncio
 
+lights = {  # Replace these with your LED's MAC address (see below for instructions to find)
+    "bedroom": 'XX:XX:XX:XX:XX:XX',
+    "lamp": 'XX:XX:XX:XX:XX:XX',
+    "h6005": 'XX:XX:XX:XX:XX:XX', # For the Govee H6005 we need to include "h6005" in the name here
+    }
+
+
 async def main():
-    # Replace this with your LED's MAC address
-    led = BluetoothLED('XX:XX:XX:XX:XX:XX')
-    await led.init_and_connect()
-    await led.set_state(True)
-    await led.set_color_white(-.55)
-    time.sleep(.5)
-    await led.set_color('orangered')
-    await led.set_brightness(.7)
+    await set_color_of_all_lights_white(-.45, 1)  # Day
+    await set_color_of_all_lights('orangered', 0.5)  # Night
 
 loop = asyncio.get_event_loop()
 try:
@@ -46,7 +46,7 @@ finally:
 # Also included...
 On the root of the repo, there are two additional Python scripts:
 * ```govee_payload_generator.py``` generates the 20 bytes long payload that would be sent to the bulb via BLE. Useful for troubleshooting.
-* ```search_btle.py``` returns a ```dict``` of MAC Addresses and Device Names of the devices of interest given a search phrase. Useful to integrate into programs where you do not know the MAC Address of the BLE devices you want to interact with (e.g. a room full of Govee bulbs...) To use this, simply call ```print(my_funcs.search_btle("minger"))```
+* ```search_btle.py``` returns a ```dict``` of MAC Addresses and Device Names of the devices of interest given a search phrase. Useful to integrate into programs where you do not know the MAC Address of the BLE devices you want to interact with (e.g. a room full of Govee bulbs...) To use this, simply call ```print(search_btle("minger"))``` or ```print(search_btle("600"))``` (my Govee H6005 showed up as 'ihoment_H6005_664B').
 
 # Reverse Engineering of H6001 BLE Packets
-[Have a look here for how the BLE packets that control the state of the LED bulb were reverse engineered. ](https://github.com/egold555/Govee-Reverse-Engineering/blob/master/Products/H6127.md)
+[Have a look here for how the BLE packets that control the state of the LED bulb were reverse engineered.](https://github.com/egold555/Govee-Reverse-Engineering/blob/master/Products/H6127.md) [There is also some information on chvolkmann's original repo, which I used to figure out H6005 support.](https://github.com/chvolkmann/govee_btled)
