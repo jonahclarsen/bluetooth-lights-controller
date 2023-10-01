@@ -3,7 +3,7 @@ import asyncio
 
 timeout = 5.0  # Seems to work well
 
-async def set_color_of_light(mac_address, color, brightness, is_h6005):
+async def set_color_of_light(mac_address, color, brightness, is_h6005 = False):
     led = BluetoothLED(mac_address, timeout=timeout)
     boolt = await led.init_and_connect()
     if boolt is False:
@@ -16,7 +16,7 @@ async def set_color_of_light(mac_address, color, brightness, is_h6005):
     await led.disconnect()
 
 
-async def set_color_of_light_white(mac_address, color, brightness, is_h6005):
+async def set_color_of_light_white(mac_address, color, brightness, is_h6005 = False):
     led = BluetoothLED(mac_address, timeout=timeout)
     boolt = await led.init_and_connect()
     if boolt is False:
