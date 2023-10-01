@@ -1,4 +1,4 @@
-# govee_btled_windows
+# bluetooth_lights_controller
 A modification of [kabyru's modification](https://github.com/kabyru/govee-btled-controller) of [Christian Volkmann's govee_btled wrapper](https://github.com/chvolkmann/govee_btled), fixing a bug with multiple lights and adding support for the Govee H6005 bulb (see Usage below).
 
 I have tested and confirmed this to work with the H6001 and H6005 LED Light Bulbs, [and based on this](https://github.com/egold555/Govee-Reverse-Engineering/blob/master/Products/H6127.md) it should also work with the H6127 LED Strip Lights and maybe other Govee/Minger lights.
