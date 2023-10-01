@@ -1,15 +1,15 @@
 from setuptools import setup
 
 setup(
-    name='govee_btled_windows',
+    name='bluetooth_lights_controller',
     version='1.0',
 
-    description='Govee Bluetooth RGB LED Controller - Windows',
+    description='Govee Bluetooth RGB LED Controller',
 
-    author='Kaleb Byrum',
-    author_email='kabyru@outlook.com',
+    author='Jonah Larsen',
+    author_email='email@email.com',
 
-    packages=['govee_btled_windows'],
+    packages=['bluetooth_lights_controller'],
     install_requires=[
         'bleak',
         'colour'
