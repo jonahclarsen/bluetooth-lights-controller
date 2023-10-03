@@ -22,9 +22,10 @@ lights = {  # Replace these with your LED's MAC address (see below for instructi
 
 
 async def main():
-    await set_color_of_all_lights_white(-.45, 1)  # Day
-    await set_color_of_all_lights('orangered', 0.5)  # Evening
-    await set_color_of_all_lights_white(0, 0)  # Night (off)
+    for i in range(2): # For some reason, setting a color sometimes fails (maybe 1 in 50 times). You could then just re-run it manually, but I like doing every command twice so it basically never fails
+        await set_color_of_all_lights_white(lights, -.45, 1)  # Day
+        await set_color_of_all_lights(lights, 'orangered', 0.5)  # Evening
+        await set_color_of_all_lights_white(lights, 0, 0)  # Night (off)
 
 loop = asyncio.get_event_loop()
 try:
