@@ -3,6 +3,8 @@ A modification of [kabyru's modification](https://github.com/kabyru/govee-btled-
 
 I have tested and confirmed this to work with the H6001 and H6005 LED Light Bulbs, [and based on this](https://github.com/egold555/Govee-Reverse-Engineering/blob/master/Products/H6127.md) it should also work with the H6127 LED Strip Lights and maybe other Govee/Minger lights. I have only confirmed it to work on Mac, but it should also work on other platforms.
 
+There is a known issue with the H6005 where you can't change the white color temperature - the temperature parameter for set_color_of_light_white is ignored. Presumably it requires you to encode it differently; I will look into it soon.
+
 # Installation
 Use pip to install:
 ```
@@ -17,7 +19,7 @@ import asyncio
 lights = {  # Replace these with your LED's MAC address (see below for instructions to find)
     "bedroom": 'XX:XX:XX:XX:XX:XX',
     "lamp": 'XX:XX:XX:XX:XX:XX',
-    "h6005": 'XX:XX:XX:XX:XX:XX', # For the Govee H6005 we need to include "h6005" in the name here
+    "h6005-kitchen": 'XX:XX:XX:XX:XX:XX', # For the Govee H6005 we need to include "h6005" in the name here
     }
 
 
@@ -26,6 +28,8 @@ async def main():
         await set_color_of_all_lights_white(lights, -.45, 1)  # Day
         await set_color_of_all_lights(lights, 'orangered', 0.5)  # Evening
         await set_color_of_all_lights_white(lights, 0, 0)  # Night (off)
+        await set_color_of_light(lights["lamp"], 'blue', 1, is_h6005=True)
+        await set_color_of_light_white(lights["h6005-kitchen"], 0.5, 1, is_h6005=True)
 
 loop = asyncio.get_event_loop()
 try:
