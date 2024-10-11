@@ -42,10 +42,10 @@ async def set_color_of_all_lights(lights, color, brightness):
             tasks += [asyncio.create_task(set_color_of_light(mac_address, color, brightness, is_h6005))]
             i += 1
         except Exception as e:
-            print("Exception!", e)
+            print("Exception in lights_controller:", e)
 
-    for j in range(i):
-        await tasks[j]
+    for task in tasks:
+        await task
 
 
 async def set_color_of_all_lights_white(lights, color, brightness):
@@ -62,8 +62,8 @@ async def set_color_of_all_lights_white(lights, color, brightness):
         except Exception as e:
             print("Exception!", e)
 
-    for j in range(i):
-        await tasks[j]
+    for task in tasks:
+        await task
 
 
 def search_btle(device_of_interest=None):
