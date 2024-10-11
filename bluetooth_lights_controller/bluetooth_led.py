@@ -6,7 +6,7 @@ from bleak import BleakClient
 
 import asyncio
 
-from shades_of_white import values as SHADES_OF_WHITE
+from .shades_of_white import values as SHADES_OF_WHITE
 
 UUID_CONTROL_CHARACTERISTIC = '00010203-0405-0607-0809-0a0b0c0d2b11'
 
