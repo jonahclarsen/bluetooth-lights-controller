@@ -41,7 +41,16 @@ class LedMode(IntEnum):
 class BluetoothLED:
     def __init__(self, mac, timeout=5):
         self.mac = mac
-        self._bt = BleakClient(mac, timeout=timeout)
+        services = {  # '0000180a-0000-1000-8000-00805f9b34fb',
+            '00010203-0405-0607-0809-0a0b0c0d1910'}  # , '00010203-0405-0607-0809-0a0b0c0d1912'}
+        # These are the only three services these lights use. Excluding the unused two seems to make
+        # changing all the lights take ~4.1s instead of ~5.1s.
+        # This is the best optimization I could find after hours of effort 2024-04-03 :(
+        # A lot of the time is spent on discovering services, so I hoped to cache that object.
+        # But this seems impossible with Bleak, since the services.obj object is stored
+        # as an objective-c object which can't be pickled. Maybe it can be done with a C++ library
+        # like SimpleBLE, but honestly I am not optimistic
+        self._bt = BleakClient(mac, timeout=timeout)#, services=services)
 
     async def init_and_connect(self):
         await self._bt.connect()
