@@ -17,9 +17,10 @@ def search_btle(device_of_interest):
             if device_of_interest in split_BLEDevice[1].lower():
                 found_devices.append({"address": split_BLEDevice[0], "name":split_BLEDevice[1]})
 
-
     asyncio.run(main())
     return found_devices
 
 if __name__ == '__main__':
-    print(search_btle("minger"))
+    # H6001 usually show up under "minger"
+    # H6005 usually show up under "ihoment"
+    print(search_btle("ihoment"))

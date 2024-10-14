@@ -1,11 +1,6 @@
 from enum import IntEnum
-
 from colour import Color
-
 from bleak import BleakClient
-
-import asyncio
-
 from .shades_of_white import values as SHADES_OF_WHITE
 
 UUID_CONTROL_CHARACTERISTIC = '00010203-0405-0607-0809-0a0b0c0d2b11'
@@ -53,7 +48,11 @@ class BluetoothLED:
         self._bt = BleakClient(mac, timeout=timeout)#, services=services)
 
     async def init_and_connect(self):
-        await self._bt.connect()
+        try:
+            await self._bt.connect()
+        except Exception as e:
+            print("Uhh!!", e)
+            return False
         # We could print this, but it's a bit annoying:
         # print(self._bt.is_connected)
 
