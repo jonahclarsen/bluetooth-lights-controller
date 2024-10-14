@@ -104,24 +104,4 @@ async def set_color_of_all_lights_white(lights, color, brightness):
 
     for task in tasks:
         await task
-
-
-def search_btle(device_of_interest=None):
-    import asyncio
-    from bleak import BleakScanner
-
-    found_devices = []
-    # device_of_interest = "minger"
-
-    async def main():
-        devices = await BleakScanner.discover()
-        for d in devices:
-            split_BLEDevice = (str(d).split(": "))
-            if device_of_interest is None:
-                found_devices.append({"address": split_BLEDevice[0], "name": split_BLEDevice[1]})
-            elif device_of_interest in split_BLEDevice[1].lower():
-                found_devices.append({"address": split_BLEDevice[0], "name":split_BLEDevice[1]})
-
-
-    asyncio.run(main())
-    return found_devices
+        
