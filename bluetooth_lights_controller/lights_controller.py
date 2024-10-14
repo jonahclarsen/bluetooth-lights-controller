@@ -29,6 +29,7 @@ async def set_color_of_light_white(mac_address, color, brightness, is_h6005 = Fa
     led = BluetoothLED(mac_address, timeout=timeout)
     boolt = await led.init_and_connect()
     if boolt is False:
+        print("Failed to connect!")
         return
     # await led.set_state(True)  # If your lights are ever turned off (i.e. via the app), uncomment this
 

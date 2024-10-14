@@ -53,7 +53,11 @@ class BluetoothLED:
         self._bt = BleakClient(mac, timeout=timeout)#, services=services)
 
     async def init_and_connect(self):
-        await self._bt.connect()
+        try:
+            await self._bt.connect()
+        except Exception as e:
+            print("Uhh!!", e)
+            return False
         # We could print this, but it's a bit annoying:
         # print(self._bt.is_connected)
 
