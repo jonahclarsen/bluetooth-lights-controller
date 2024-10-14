@@ -4,6 +4,8 @@ from .bluetooth_led import BluetoothLED
 timeout = 5.0  # Seems to work well
 
 async def set_state_of_light(mac_address, state, is_h6005 = False):
+    print("Setting the states of the lights is really buggy, I don't recommend it! Prefer to set the brightness to 0.")
+
     led = BluetoothLED(mac_address, timeout=timeout)
     boolt = await led.init_and_connect()
     if boolt is False:
@@ -104,4 +106,3 @@ async def set_color_of_all_lights_white(lights, color, brightness):
 
     for task in tasks:
         await task
-        
