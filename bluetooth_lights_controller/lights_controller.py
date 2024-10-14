@@ -1,5 +1,6 @@
-from bluetooth_lights_controller import BluetoothLED
+
 import asyncio
+from .bluetooth_led import BluetoothLED
 
 timeout = 5.0  # Seems to work well
 
